@@ -1,6 +1,7 @@
 import { Button } from '@/components/common/onboarding/Button';
 import { Pagination } from '@/components/common/onboarding/Pagination';
 import { ONBOARDING_DATA, theme } from '@/constants';
+import { useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -110,6 +111,7 @@ export default function OnboardingScreen() {
   const flatListRef = useAnimatedRef<FlatList>();
 
   const flatListIndex = useSharedValue(0);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const x = useSharedValue(0);
 
   const onViewableItemsChanged = ({
@@ -117,7 +119,7 @@ export default function OnboardingScreen() {
   }: {
     viewableItems: Array<ViewToken>;
   }) => {
-    flatListIndex.value = viewableItems[0].index ?? 0;
+    setCurrentItemIndex(viewableItems[0].index ?? 0);
   };
 
   const onScroll = useAnimatedScrollHandler({
@@ -125,7 +127,7 @@ export default function OnboardingScreen() {
       x.value = event.contentOffset.x;
     },
   });
-
+  console.log(`FlatListIndex: ${flatListIndex.value}`);
   return (
     <View style={styles.container}>
       <Animated.FlatList
@@ -149,7 +151,7 @@ export default function OnboardingScreen() {
 
         <Button
           flatListRef={flatListRef}
-          flatListIndex={flatListIndex}
+          flatListIndex={currentItemIndex}
           dataLength={ONBOARDING_DATA.length}
         />
       </View>

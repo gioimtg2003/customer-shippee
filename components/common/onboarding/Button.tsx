@@ -5,7 +5,6 @@ import { useRoute } from '@react-navigation/native';
 import React, { RefObject } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, {
-  SharedValue,
   useAnimatedStyle,
   withSpring,
   withTiming,
@@ -16,7 +15,7 @@ const AnimatedFeather = Animated.createAnimatedComponent(Feather);
 
 type ButtonProps = {
   flatListRef: RefObject<FlatList>;
-  flatListIndex: SharedValue<number>;
+  flatListIndex: number;
   dataLength: number;
 };
 
@@ -27,9 +26,10 @@ export function Button({
 }: ButtonProps) {
   const { setStorageValue } = useStorage(StorageKey.ONBOARDING);
   const router = useRoute();
+  console.log(`FlatListIndex: ${flatListIndex}`);
 
   const buttonAnimationStyle = useAnimatedStyle(() => {
-    const isLastScreen = flatListIndex.value === dataLength - 1;
+    const isLastScreen = flatListIndex === dataLength - 1;
     return {
       width: isLastScreen ? withSpring(140) : withSpring(60),
       height: 60,
@@ -37,9 +37,8 @@ export function Button({
   });
 
   const arrowAnimationStyle = useAnimatedStyle(() => {
-    const isLastScreen = flatListIndex.value === dataLength - 1;
+    const isLastScreen = flatListIndex === dataLength - 1;
     return {
-      opacity: isLastScreen ? withTiming(0) : withTiming(1),
       transform: [
         { translateX: isLastScreen ? withTiming(100) : withTiming(0) },
       ],
@@ -47,7 +46,7 @@ export function Button({
   });
 
   const textAnimationStyle = useAnimatedStyle(() => {
-    const isLastScreen = flatListIndex.value === dataLength - 1;
+    const isLastScreen = flatListIndex === dataLength - 1;
     return {
       opacity: isLastScreen ? withTiming(1) : withTiming(0),
       transform: [
@@ -57,9 +56,9 @@ export function Button({
   });
 
   const handleNextScreen = () => {
-    const isLastScreen = flatListIndex.value === dataLength - 1;
+    const isLastScreen = flatListIndex === dataLength - 1;
     if (!isLastScreen) {
-      flatListRef.current?.scrollToIndex({ index: flatListIndex.value + 1 });
+      flatListRef.current?.scrollToIndex({ index: flatListIndex + 1 });
     } else {
       setStorageValue({ value: true });
     }
@@ -79,7 +78,19 @@ export function Button({
         name='arrow-right'
         size={30}
         color={theme.colors.textHighlightColor}
-        style={[styles.arrow, arrowAnimationStyle]}
+        style={[
+          styles.arrow,
+          arrowAnimationStyle,
+          {
+            ...(flatListIndex === dataLength - 1
+              ? {
+                  opacity: 0,
+                }
+              : {
+                  opacity: 1,
+                }),
+          },
+        ]}
       />
     </AnimatedPressable>
   );
