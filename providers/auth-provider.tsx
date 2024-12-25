@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { me } from '@/redux/slices';
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ export default function AuthProvider(props: Readonly<Props>) {
   if (isLoading) {
     return (
       <View className='flex-1 items-center justify-center'>
-        <></>
+        <Text>Loading ...</Text>
       </View>
     );
   }
