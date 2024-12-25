@@ -1,0 +1,40 @@
+export const NOTE_MAX_LENGTH = 255;
+
+export enum ORDER_STATUS_ENUM {
+  PENDING = 'PENDING',
+  PENDING_PICKUP = 'PENDING_PICKUP',
+  PICKED_UP = 'PICKED_UP',
+  COMPLETED = 'COMPLETED',
+  RETURN = 'RETURN',
+  RETURNING = 'RETURNING',
+  RETURNED = 'RETURNED',
+  CANCELED = 'CANCELED',
+  RELEASE = 'RELEASE',
+  ARRIVED_AT_PICKUP = 'ARRIVED_AT_PICKUP',
+  ARRIVED_AT_RECIPIENT = 'ARRIVED_AT_RECIPIENT',
+}
+
+export enum ORDER_ASSIGNMENT_STATUS_ENUM {
+  ASSIGNED = 'ASSIGNED',
+  REJECTED = 'REJECTED',
+  EXPIRE = 'EXPIRE',
+}
+
+export enum ORDER_PAYER_ENUM {
+  SENDER = 'SENDER',
+  RECIPIENT = 'RECIPIENT',
+}
+
+export enum PRICE_ITEMS_ENUM {
+  DEFAULT = 'DEFAULT',
+  EXCEED = 'EXCEED',
+}
+
+export const PRICE_ITEM_NAME: { [key in PRICE_ITEMS_ENUM]: string } = {
+  DEFAULT: 'Phí mặc định',
+  EXCEED: 'Phí vượt mức khoảng cách',
+};
+
+export const RATE_PIT = 0.015;
+export const RATE_VAT = 0.1;
+export const RATE_PLATFORM = 0.1;
