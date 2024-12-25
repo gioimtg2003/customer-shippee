@@ -6,8 +6,6 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-import { theme } from '@/constants';
-
 type PaginationCompProps = {
   index: number;
   x: SharedValue<number>;
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: theme.colors.backgroundHighlightColor,
+    backgroundColor: 'white',
     marginHorizontal: 10,
   },
 });

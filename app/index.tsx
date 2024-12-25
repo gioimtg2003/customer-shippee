@@ -1,18 +1,24 @@
-import { theme } from '@/constants';
+import { Button } from '@/components/common/onboarding/Button';
+import { Pagination } from '@/components/common/onboarding/Pagination';
+import { ONBOARDING_DATA, theme } from '@/constants';
 import {
-  Animated,
+  FlatList,
   StyleSheet,
   Text,
   useWindowDimensions,
   View,
+  ViewToken,
 } from 'react-native';
-import {
+import Animated, {
   interpolate,
   SharedValue,
+  useAnimatedRef,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
+  useSharedValue,
 } from 'react-native-reanimated';
 
-const RenderItem = ({
+const OnboardingItem = ({
   item,
   index,
   x,
@@ -22,7 +28,6 @@ const RenderItem = ({
   x: SharedValue<number>;
 }) => {
   const { width: SCREEN_WIDTH } = useWindowDimensions();
-  console.log('width', SCREEN_WIDTH);
 
   const imageAnimatedStyle = useAnimatedStyle(() => {
     const opacityAnimation = interpolate(
@@ -100,10 +105,68 @@ const RenderItem = ({
   );
 };
 
+export default function OnboardingScreen() {
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const flatListRef = useAnimatedRef<FlatList>();
+
+  const flatListIndex = useSharedValue(0);
+  const x = useSharedValue(0);
+
+  const onViewableItemsChanged = ({
+    viewableItems,
+  }: {
+    viewableItems: Array<ViewToken>;
+  }) => {
+    flatListIndex.value = viewableItems[0].index ?? 0;
+  };
+
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      x.value = event.contentOffset.x;
+    },
+  });
+
+  return (
+    <View style={styles.container}>
+      <Animated.FlatList
+        ref={flatListRef as any}
+        data={ONBOARDING_DATA}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item, index }) => (
+          <OnboardingItem index={index} item={item} x={x} />
+        )}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        pagingEnabled
+        onViewableItemsChanged={onViewableItemsChanged}
+      />
+
+      <View style={styles.footerContainer}>
+        <Pagination data={ONBOARDING_DATA} screenWidth={SCREEN_WIDTH} x={x} />
+
+        <Button
+          flatListRef={flatListRef}
+          flatListIndex={flatListIndex}
+          dataLength={ONBOARDING_DATA.length}
+        />
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    position: 'relative',
+    paddingBottom: '22%',
+  },
   itemContainer: {
     flex: 1,
-    backgroundColor: theme.colors.backgroundColor,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
@@ -120,6 +183,18 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginHorizontal: 30,
   },
+  footerContainer: {
+    height: '20%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: theme.colors.primary,
+    padding: 20,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
 });
-
-export default RenderItem;

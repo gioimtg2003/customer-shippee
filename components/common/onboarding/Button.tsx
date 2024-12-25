@@ -1,6 +1,7 @@
 import { StorageKey, theme } from '@/constants';
 import { useStorage } from '@/hooks';
 import { Feather } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
 import React, { RefObject } from 'react';
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, {
@@ -25,6 +26,8 @@ export function Button({
   flatListRef,
 }: ButtonProps) {
   const { setStorageValue } = useStorage(StorageKey.ONBOARDING);
+  const router = useRoute();
+
   const buttonAnimationStyle = useAnimatedStyle(() => {
     const isLastScreen = flatListIndex.value === dataLength - 1;
     return {
@@ -56,9 +59,7 @@ export function Button({
   const handleNextScreen = () => {
     const isLastScreen = flatListIndex.value === dataLength - 1;
     if (!isLastScreen) {
-      flatListRef.current?.scrollToIndex({
-        index: flatListIndex.value + 1,
-      });
+      flatListRef.current?.scrollToIndex({ index: flatListIndex.value + 1 });
     } else {
       setStorageValue({ value: true });
     }
@@ -86,7 +87,7 @@ export function Button({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.backgroundHighlightColor,
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 100,
     alignItems: 'center',
@@ -95,11 +96,12 @@ const styles = StyleSheet.create({
   },
   arrow: {
     position: 'absolute',
+    color: theme.colors.primary,
   },
   text: {
     position: 'absolute',
     fontSize: 16,
     fontWeight: 'bold',
-    color: theme.colors.textHighlightColor,
+    color: theme.colors.primary,
   },
 });
