@@ -1,7 +1,10 @@
 name: CI to Verify
 
 # Controls when the action will run. Triggers the workflow on pull request
-on: [pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   verify:
