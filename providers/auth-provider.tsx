@@ -18,7 +18,7 @@ export default function AuthProvider(props: Readonly<Props>) {
   }, []);
   if (isLoading) {
     return (
-      <View className='flex-1 items-center justify-center'>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Loading ...</Text>
       </View>
     );
