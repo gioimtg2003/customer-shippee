@@ -110,14 +110,13 @@ export default function OnboardingScreen() {
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const flatListRef = useAnimatedRef<FlatList>();
 
-  const flatListIndex = useSharedValue(0);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const x = useSharedValue(0);
 
   const onViewableItemsChanged = ({
     viewableItems,
   }: {
-    viewableItems: Array<ViewToken>;
+    viewableItems: ViewToken[];
   }) => {
     setCurrentItemIndex(viewableItems[0].index ?? 0);
   };
