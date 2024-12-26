@@ -127,7 +127,6 @@ export default function OnboardingScreen() {
       x.value = event.contentOffset.x;
     },
   });
-  console.log(`FlatListIndex: ${flatListIndex.value}`);
   return (
     <View style={styles.container}>
       <Animated.FlatList

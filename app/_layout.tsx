@@ -1,3 +1,4 @@
+import { SCREENS } from '@/constants';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import {
   DarkTheme,
@@ -33,8 +34,18 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name='index' options={{ headerShown: false }} />
-        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        <Stack.Screen
+          name={SCREENS.PROTECTED}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.AUTHENTICATE}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.ONBOARDING}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name='+not-found' />
       </Stack>
       <StatusBar style='auto' />
