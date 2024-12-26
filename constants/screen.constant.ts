@@ -11,4 +11,12 @@ export const SCREENS = {
   TAB_EXPLORE: 'explore',
   TAB_SETTINGS: 'settings',
   AI: 'ai',
+  FORGOT_PASSWORD: 'forgot-password',
+  TRACKING_ORDER: 'tracking-order',
+  CREATE_ORDER: 'create-order',
+  CREATE_ORDER_MAP: 'map',
+  CREATE_ORDER_INFORMATION: 'information',
+  CREATE_ORDER_PAYMENT: 'payment',
+  CREATE_ORDER_COMPLETED: 'completed',
+  CREATE_ORDER_VEHICLE: 'vehicle',
 };
